@@ -1,0 +1,54 @@
+# LogMind Configuration File
+# This file provides default configuration values
+# Environment variables take precedence over these settings
+
+app:
+  name: LogMind
+  log_level: INFO
+  debug: false
+
+redis:
+  host: localhost
+  port: 6379
+  db: 0
+  stream_name: logmind:logs
+  consumer_group: logmind-workers
+
+postgres:
+  host: localhost
+  port: 5432
+  user: logmind
+  database: logmind
+
+llm:
+  provider: claude  # claude or oci
+  model: claude-sonnet-4-20250514
+  max_tokens: 4096
+  temperature: 0.1
+
+detection:
+  sigma_rules_path: rules
+  enable_sigma: true
+  enable_anomaly: true
+
+  anomaly:
+    auth_failure_threshold: 5
+    auth_failure_window: 60
+    port_scan_threshold: 10
+    port_scan_window: 60
+
+mitre:
+  data_path: data/mitre/enterprise-attack.json
+
+alerting:
+  slack:
+    enabled: true
+    channel: "#security-alerts"
+
+  severity_thresholds:
+    slack: high  # Only alert on high/critical
+
+processing:
+  batch_size: 100
+  interval_seconds: 1.0
+  max_queue_size: 100000

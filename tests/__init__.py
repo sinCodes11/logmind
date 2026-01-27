@@ -1,0 +1,1 @@
+"""LogMind test suite."""

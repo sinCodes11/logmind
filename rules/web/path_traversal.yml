@@ -1,0 +1,38 @@
+title: Path Traversal Attack
+id: c8e18e79-g1h3-7f3e-3g4e-9i1h2i3e5f6g
+status: stable
+level: high
+description: Detects directory traversal attack patterns in web requests
+author: Daniel Gregg Jr
+date: 2026/01/25
+references:
+  - https://attack.mitre.org/techniques/T1083/
+  - https://owasp.org/www-community/attacks/Path_Traversal
+tags:
+  - attack.discovery
+  - attack.t1083
+logsource:
+  product: web
+  category: webserver
+detection:
+  selection_traversal:
+    message|contains:
+      - '../'
+      - '..%2f'
+      - '..%252f'
+      - '%2e%2e/'
+      - '%2e%2e%2f'
+      - '..../'
+      - '..\\'
+  selection_sensitive_files:
+    message|contains:
+      - '/etc/passwd'
+      - '/etc/shadow'
+      - '/etc/hosts'
+      - 'win.ini'
+      - 'boot.ini'
+      - 'web.config'
+  condition: selection_traversal or selection_sensitive_files
+falsepositives:
+  - Security scanners
+  - Penetration testing activities

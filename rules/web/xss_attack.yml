@@ -1,0 +1,44 @@
+title: Cross-Site Scripting (XSS) Attack
+id: d9f29f80-h2i4-8g4f-4h5f-0j2i3j4f6g7h
+status: stable
+level: medium
+description: Detects XSS attack patterns in web requests
+author: Daniel Gregg Jr
+date: 2026/01/25
+references:
+  - https://attack.mitre.org/techniques/T1189/
+  - https://owasp.org/www-community/attacks/xss/
+tags:
+  - attack.initial_access
+  - attack.t1189
+logsource:
+  product: web
+  category: webserver
+detection:
+  selection_script:
+    message|contains:
+      - '<script>'
+      - '<script'
+      - '%3cscript'
+      - '&lt;script'
+  selection_event:
+    message|contains:
+      - 'onerror='
+      - 'onload='
+      - 'onclick='
+      - 'onmouseover='
+  selection_javascript:
+    message|contains:
+      - 'javascript:'
+      - 'vbscript:'
+      - 'data:text/html'
+  selection_encoded:
+    message|contains:
+      - 'alert('
+      - 'alert%28'
+      - 'prompt('
+      - 'confirm('
+  condition: selection_script or selection_event or selection_javascript or selection_encoded
+falsepositives:
+  - Security scanners
+  - Legitimate JavaScript in URL parameters

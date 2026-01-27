@@ -1,0 +1,47 @@
+title: SQL Injection Attempt
+id: b7d07d68-f0g2-6e2d-2f3d-8h0g1h2d4e5f
+status: stable
+level: high
+description: Detects SQL injection attack patterns in web requests
+author: Daniel Gregg Jr
+date: 2026/01/25
+references:
+  - https://attack.mitre.org/techniques/T1190/
+  - https://owasp.org/www-community/attacks/SQL_Injection
+tags:
+  - attack.initial_access
+  - attack.t1190
+logsource:
+  product: web
+  category: webserver
+detection:
+  selection_union:
+    message|contains:
+      - 'UNION SELECT'
+      - 'UNION ALL SELECT'
+      - 'union select'
+  selection_boolean:
+    message|contains:
+      - "' OR '1'='1"
+      - "' OR 1=1"
+      - "' OR ''='"
+      - "1' OR '1'='1"
+  selection_comment:
+    message|contains:
+      - '--'
+      - '/*'
+      - '#'
+    message|contains:
+      - 'SELECT'
+      - 'INSERT'
+      - 'UPDATE'
+      - 'DELETE'
+      - 'DROP'
+  selection_tools:
+    message|contains:
+      - 'sqlmap'
+      - 'havij'
+  condition: selection_union or selection_boolean or selection_comment or selection_tools
+falsepositives:
+  - Security scanners
+  - Penetration testing activities

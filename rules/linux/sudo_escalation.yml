@@ -1,0 +1,33 @@
+title: Suspicious Sudo Privilege Escalation
+id: f5b85b46-d8e0-4c0b-0d1b-6f8e9f0b2c3d
+status: stable
+level: high
+description: Detects sudo usage for privilege escalation attempts or unauthorized access
+author: Daniel Gregg Jr
+date: 2026/01/25
+references:
+  - https://attack.mitre.org/techniques/T1548/003/
+tags:
+  - attack.privilege_escalation
+  - attack.t1548.003
+logsource:
+  product: linux
+  service: sudo
+detection:
+  selection_unauthorized:
+    program: sudo
+    message|contains:
+      - 'NOT in sudoers'
+      - 'incorrect password attempts'
+      - 'authentication failure'
+  selection_sensitive:
+    program: sudo
+    message|contains:
+      - '/etc/shadow'
+      - '/etc/passwd'
+      - '/bin/bash'
+      - '/bin/sh'
+  condition: selection_unauthorized or selection_sensitive
+falsepositives:
+  - Legitimate administrators testing access
+  - New employees before sudo access is granted

@@ -1,0 +1,27 @@
+title: SSH Brute Force Attack
+id: e4a74a35-c7d9-4b9a-9c0a-5f7d8e9a1b2c
+status: stable
+level: high
+description: Detects multiple failed SSH authentication attempts indicating a brute force attack
+author: Daniel Gregg Jr
+date: 2026/01/25
+references:
+  - https://attack.mitre.org/techniques/T1110/
+tags:
+  - attack.credential_access
+  - attack.t1110.001
+  - attack.t1110.003
+logsource:
+  product: linux
+  service: sshd
+detection:
+  selection:
+    program: sshd
+    message|contains:
+      - 'Failed password'
+      - 'Invalid user'
+      - 'authentication failure'
+  condition: selection
+falsepositives:
+  - Legitimate users mistyping passwords
+  - Password managers with outdated credentials
