@@ -1,5 +1,9 @@
 # LogMind
 
+<div align="center">
+  <img src="https://lottie.host/8040f7b8-8e10-4c57-8987-90c749b5c5e8/intelligence.gif" width="200" height="200" />
+</div>
+
 **LLM-Powered Security Log Analyzer**
 
 LogMind is a security log analysis platform that combines rule-based detection (Sigma) with LLM-powered analysis to identify threats, map to MITRE ATT&CK, and generate actionable incident reports.
