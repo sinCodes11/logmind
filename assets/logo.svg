@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#16213e"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d2ff"/>
+      <stop offset="100%" style="stop-color:#3a7bd5"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="200" height="200" rx="32" fill="url(#bg)"/>
+  <g transform="translate(100,100)">
+    <!-- Orbiting rings -->
+    <ellipse cx="0" cy="0" rx="70" ry="25" fill="none" stroke="#00d2ff" stroke-width="0.8" opacity="0.3">
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="8s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="0" cy="0" rx="60" ry="20" fill="none" stroke="#3a7bd5" stroke-width="0.6" opacity="0.2">
+      <animateTransform attributeName="transform" type="rotate" from="180" to="540" dur="10s" repeatCount="indefinite"/>
+    </ellipse>
+    <!-- Orbiting data nodes -->
+    <circle r="4" fill="#00d2ff" filter="url(#glow)">
+      <animateMotion dur="8s" repeatCount="indefinite">
+        <mpath href="#orbit1"/>
+      </animateMotion>
+    </circle>
+    <path id="orbit1" d="M 0,0 m -70,0 a 70,25 0 1,0 140,0 a 70,25 0 1,0 -140,0" fill="none"/>
+    <circle r="3" fill="#3a7bd5" filter="url(#glow)">
+      <animateMotion dur="10s" repeatCount="indefinite">
+        <mpath href="#orbit2"/>
+      </animateMotion>
+    </circle>
+    <path id="orbit2" d="M 0,0 m -60,0 a 60,20 0 1,0 120,0 a 60,20 0 1,0 -120,0" fill="none"/>
+    <!-- Pulsing ring -->
+    <circle cx="0" cy="0" r="35" fill="none" stroke="#00d2ff" stroke-width="1.5" opacity="0">
+      <animate attributeName="r" values="30;55" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <!-- Central brain icon -->
+    <g transform="scale(0.8)">
+      <path d="M-15-5 C-15-15,-5-20,0-20 C5-20,15-15,15-5 C15-2,13 2,10 5 L15 15 L5 10 C2 12,-2 12,-5 10 L-15 15 L-10 5 C-13 2,-15-2,-15-5Z" fill="none" stroke="url(#accent)" stroke-width="2"/>
+      <path d="M-8 0 L0-8 L8 0" fill="none" stroke="#00d2ff" stroke-width="1.5" opacity="0.6"/>
+      <path d="M-6 3 L0-3 L6 3" fill="none" stroke="#3a7bd5" stroke-width="1" opacity="0.4"/>
+    </g>
+    <!-- Log data streams -->
+    <g opacity="0.4">
+      <line x1="-45" y1="-35" x2="-25" y2="-35" stroke="#00d2ff" stroke-width="1">
+        <animate attributeName="x1" values="-45;-25" dur="1.5s" repeatCount="indefinite"/>
+      </line>
+      <line x1="-45" y1="-30" x2="-20" y2="-30" stroke="#3a7bd5" stroke-width="0.8">
+        <animate attributeName="x1" values="-45;-20" dur="1.2s" repeatCount="indefinite"/>
+      </line>
+    </g>
+  </g>
+</svg>

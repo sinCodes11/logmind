@@ -1,8 +1,14 @@
 # LogMind
 
 <div align="center">
-  <img src="https://lottie.host/8040f7b8-8e10-4c57-8987-90c749b5c5e8/intelligence.gif" width="200" height="200" />
+  <img src="assets/logo.svg" width="200" height="200" />
 </div>
+
+<p align="center">
+  <a href="#"><img src="https://img.shields.io/badge/Lottie-dotLottie-00d2ff?style=flat-square" alt="Lottie"></a>
+  <a href="#"><img src="https://img.shields.io/badge/python-3.11%2B-blue?style=flat-square" alt="Python"></a>
+  <a href="#"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License"></a>
+</p>
 
 **LLM-Powered Security Log Analyzer**
 
@@ -297,6 +303,34 @@ docker-compose down
 - **Security**: Log analysis, Sigma rules, MITRE ATT&CK, threat detection
 - **Infrastructure**: Redis Streams, PostgreSQL, Docker, async Python
 - **Automation**: Event-driven architecture, real-time processing
+
+## Lottie Animation Integration
+
+Visualize security events with real-time Lottie animations powered by [dotLottie](https://dotlottie.io/):
+
+```html
+<dotlottie-wc
+  src="https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie"
+  autoplay
+  loop
+></dotlottie-wc>
+<script type="module" src="https://unpkg.com/@lottiefiles/dotlottie-wc@latest/dist/dotlottie-wc.js"></script>
+```
+
+```bash
+npm install @lottiefiles/dotlottie-web
+```
+
+```js
+import { DotLottie } from '@lottiefiles/dotlottie-web'
+
+const player = new DotLottie({
+  canvas: document.getElementById('security-canvas'),
+  src: '/animations/threat-detection.lottie',
+  autoplay: true,
+  loop: true,
+})
+```
 
 ## License
 
