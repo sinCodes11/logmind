@@ -4,12 +4,6 @@
   <img src="assets/logo.svg" width="200" height="200" />
 </div>
 
-<p align="center">
-  <a href="#"><img src="https://img.shields.io/badge/Lottie-dotLottie-00d2ff?style=flat-square" alt="Lottie"></a>
-  <a href="#"><img src="https://img.shields.io/badge/python-3.11%2B-blue?style=flat-square" alt="Python"></a>
-  <a href="#"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License"></a>
-</p>
-
 **LLM-Powered Security Log Analyzer**
 
 LogMind is a security log analysis platform that combines rule-based detection (Sigma) with LLM-powered analysis to identify threats, map to MITRE ATT&CK, and generate actionable incident reports.
