@@ -6,23 +6,22 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/python-3.11%2B-blue?style=flat-square" alt="Python">
+  <img src="https://img.shields.io/badge/Claude_API-LLM-a855f7?style=flat-square" alt="Claude">
   <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License">
 </p>
 
-**LLM-Powered Security Log Analyzer**
-
-LogMind is a security log analysis platform that combines rule-based detection (Sigma) with LLM-powered analysis to identify threats, map to MITRE ATT&CK, and generate actionable incident reports.
+LLM-powered security log analyzer that combines rule-based detection (Sigma) with AI analysis to identify threats, map to MITRE ATT&CK, and generate actionable incident reports — in seconds, not hours.
 
 ## Overview
 
-LogMind ingests security logs from multiple sources, applies detection rules and anomaly detection, enriches findings with MITRE ATT&CK context, and uses LLMs to generate human-readable incident summaries.
+LogMind ingests logs from multiple sources, applies Sigma rules and statistical anomaly detection, enriches findings with MITRE ATT&CK context, and uses Claude or OCI GenAI to produce human-readable incident summaries.
 
 **Key Capabilities:**
 - Multi-format log ingestion (syslog RFC 3164/5424, JSON, CEF)
-- Real-time processing with Redis Streams
+- Real-time processing with Redis Streams and consumer groups
 - Sigma rules detection engine
-- Statistical anomaly detection (brute force, port scans, off-hours activity)
-- Dual LLM support (Claude API + OCI Generative AI)
+- Statistical anomaly detection — brute force, port scans, off-hours activity
+- Dual LLM support: Claude API + OCI Generative AI
 - MITRE ATT&CK technique mapping
 - Automated incident report generation
 - Slack alerting integration
@@ -38,51 +37,38 @@ LogMind ingests security logs from multiple sources, applies detection rules and
 │  │  Syslog  │    │   JSON   │    │      CEF      │    │   File Watcher   │ │
 │  │  Parser  │    │  Parser  │    │    Parser     │    │                  │ │
 │  └────┬─────┘    └────┬─────┘    └───────┬───────┘    └────────┬─────────┘ │
-│       │               │                  │                      │          │
 │       └───────────────┴─────────┬────────┴──────────────────────┘          │
-│                                 │                                          │
 │                                 ▼                                          │
 │                    ┌────────────────────────┐                              │
 │                    │    Normalized Logs     │                              │
-│                    │    (NormalizedLog)     │                              │
 │                    └───────────┬────────────┘                              │
-│                                │                                           │
 │                                ▼                                           │
 │                    ┌────────────────────────┐                              │
 │                    │     Redis Streams      │                              │
-│                    │   (Consumer Groups)    │                              │
 │                    └───────────┬────────────┘                              │
-│                                │                                           │
 │           ┌────────────────────┼────────────────────┐                      │
-│           │                    │                    │                      │
 │           ▼                    ▼                    ▼                      │
 │  ┌────────────────┐  ┌────────────────┐  ┌────────────────┐               │
 │  │  Sigma Rules   │  │    Anomaly     │  │  LLM Analysis  │               │
 │  │    Engine      │  │   Detector     │  │  (Claude/OCI)  │               │
 │  └───────┬────────┘  └───────┬────────┘  └───────┬────────┘               │
-│          │                   │                   │                         │
 │          └───────────────────┴───────────────────┘                         │
-│                              │                                             │
 │                              ▼                                             │
 │                    ┌────────────────────────┐                              │
 │                    │   Detection Results    │                              │
 │                    └───────────┬────────────┘                              │
-│                                │                                           │
 │           ┌────────────────────┼────────────────────┐                      │
-│           │                    │                    │                      │
 │           ▼                    ▼                    ▼                      │
 │  ┌────────────────┐  ┌────────────────┐  ┌────────────────┐               │
 │  │  MITRE ATT&CK  │  │   Incident     │  │     Slack      │               │
 │  │    Mapper      │  │   Generator    │  │    Alerter     │               │
 │  └────────────────┘  └────────────────┘  └────────────────┘               │
-│                                │                                           │
 │                                ▼                                           │
 │                    ┌────────────────────────┐                              │
 │                    │     PostgreSQL         │                              │
 │                    │  (Logs, Detections,    │                              │
 │                    │      Incidents)        │                              │
 │                    └────────────────────────┘                              │
-│                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -97,20 +83,13 @@ LogMind ingests security logs from multiple sources, applies detection rules and
 ### Installation
 
 ```bash
-# Clone and navigate to directory
 cd LogMind
-
-# Create virtual environment
 python -m venv venv
-source venv/bin/activate  # or `venv\Scripts\activate` on Windows
+source venv/bin/activate
 
-# Install dependencies
 pip install -r requirements.txt
-
-# Install LogMind in development mode
 pip install -e .
 
-# Copy environment configuration
 cp .env.example .env
 # Edit .env with your API keys
 ```
@@ -118,40 +97,22 @@ cp .env.example .env
 ### Start Infrastructure
 
 ```bash
-# Start Redis and PostgreSQL
 docker-compose up -d redis postgres
-
-# Initialize database
 logmind init-db
-
-# Load Sigma rules
 logmind load-rules
 ```
 
 ### Basic Usage
 
 ```bash
-# Check system status
 logmind status
-
-# Ingest a log file
 logmind ingest data/samples/auth.log --format syslog
-
-# Run LLM analysis on recent logs
 logmind analyze --hours 1
-
-# List security incidents
 logmind incidents
-
-# Start the processing worker
 logmind worker
 ```
 
 ## Configuration
-
-### Environment Variables
-
-Create a `.env` file from `.env.example`:
 
 ```bash
 # LLM Provider (claude or oci)
@@ -168,13 +129,9 @@ SLACK_WEBHOOK_URL=https://hooks.slack.com/services/...
 
 ### Sigma Rules
 
-Rules are stored in `rules/` directory:
-- `rules/linux/` - Linux-specific rules (SSH, sudo, etc.)
-- `rules/web/` - Web application rules (SQLi, XSS, etc.)
+Rules live in `rules/` — `rules/linux/` for SSH/sudo, `rules/web/` for SQLi/XSS. Drop in any Sigma YAML to extend detection.
 
-Add custom rules in Sigma YAML format.
-
-## CLI Commands
+## CLI Reference
 
 | Command | Description |
 |---------|-------------|
@@ -190,32 +147,18 @@ Add custom rules in Sigma YAML format.
 
 ## Detection Capabilities
 
-### Sigma Rules
+**Sigma rules detect:**
+- SSH brute force, sudo privilege escalation, web shell activity
+- SQL injection, path traversal, XSS
 
-Included rules detect:
-- SSH brute force attacks
-- Sudo privilege escalation
-- Web shell activity
-- SQL injection attempts
-- Path traversal attacks
-- XSS attacks
-
-### Anomaly Detection
-
-Statistical detection of:
+**Anomaly detection:**
 - Brute force patterns (configurable threshold)
-- Port scanning activity
-- Off-hours sensitive operations
-- New external IP connections
+- Port scanning, off-hours sensitive operations, new external IP connections
 
-### LLM Analysis
-
-The LLM provides:
-- Threat assessment and classification
-- MITRE ATT&CK mapping
+**LLM analysis provides:**
+- Threat classification + MITRE ATT&CK mapping
 - Severity rating with justification
-- Impact analysis
-- Actionable recommendations
+- Impact analysis and actionable recommendations
 
 ## Project Structure
 
@@ -235,33 +178,23 @@ LogMind/
 ├── rules/                  # Sigma rules
 ├── data/samples/           # Sample log files
 ├── tests/                  # Unit and integration tests
-├── docker-compose.yml      # Infrastructure services
-└── Dockerfile              # Application container
+├── docker-compose.yml
+└── Dockerfile
 ```
 
 ## Testing
 
 ```bash
-# Run all tests
 pytest
-
-# Run with coverage
 pytest --cov=logmind
-
-# Run specific test file
 pytest tests/unit/test_parsers.py
 ```
 
 ## Docker Deployment
 
 ```bash
-# Build and start all services
 docker-compose up -d
-
-# View logs
 docker-compose logs -f logmind
-
-# Stop services
 docker-compose down
 ```
 
@@ -274,69 +207,22 @@ docker-compose down
 | OCI GenAI | Command-R+ (10K requests/day) | ~$30 |
 | **Total** | | **~$95/month** |
 
-*Claude API costs vary by usage (~$3/1M input tokens, ~$15/1M output tokens)*
+*Claude API: ~$3/1M input tokens, ~$15/1M output tokens*
 
-## Security Considerations
+## Security
 
-- API keys stored in environment variables (never committed)
+- API keys in environment variables — never committed
 - Least-privilege database access
-- Redis password authentication supported
+- Redis password auth supported
 - Input validation on all parsers
-- Rate limiting on LLM calls recommended for production
-
-## Resume Talking Points
-
-1. **Built LLM-powered security log analyzer** processing 10K+ logs/hour with sub-second Sigma rule matching
-
-2. **Designed multi-provider LLM integration** (Claude API + OCI GenAI) with prompt engineering for security incident classification
-
-3. **Implemented real-time log pipeline** using Redis Streams with consumer groups and horizontal scalability
-
-4. **Created Sigma rules engine** with 6+ detection rules reducing MTTD for brute force attacks from hours to seconds
-
-5. **Developed automated incident reporter** with MITRE ATT&CK mapping, reducing analyst triage time by 60%
-
-## Skills Demonstrated
-
-- **AI/ML**: LLM integration, prompt engineering, RAG patterns
-- **Security**: Log analysis, Sigma rules, MITRE ATT&CK, threat detection
-- **Infrastructure**: Redis Streams, PostgreSQL, Docker, async Python
-- **Automation**: Event-driven architecture, real-time processing
-
-## Lottie Animation Integration
-
-Visualize security events with real-time Lottie animations powered by [dotLottie](https://dotlottie.io/):
-
-```html
-<dotlottie-wc
-  src="https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie"
-  autoplay
-  loop
-></dotlottie-wc>
-<script type="module" src="https://unpkg.com/@lottiefiles/dotlottie-wc@latest/dist/dotlottie-wc.js"></script>
-```
-
-```bash
-npm install @lottiefiles/dotlottie-web
-```
-
-```js
-import { DotLottie } from '@lottiefiles/dotlottie-web'
-
-const player = new DotLottie({
-  canvas: document.getElementById('security-canvas'),
-  src: '/animations/threat-detection.lottie',
-  autoplay: true,
-  loop: true,
-})
-```
+- Rate limiting recommended for production LLM calls
 
 ## License
 
-MIT License - See LICENSE file for details.
+MIT — see LICENSE for details.
 
 ## Author
 
 **Daniel Gregg Jr**
 - Portfolio: [daniel-eportfolio.web.app](https://daniel-eportfolio.web.app)
-- LinkedIn: [linkedin.com/in/danielsin-1881ske89](https://linkedin.com/in/danielsin-1881ske89)
+- LinkedIn: [linkedin.com/in/daniel-sin-1881ske89](https://linkedin.com/in/daniel-sin-1881ske89)
