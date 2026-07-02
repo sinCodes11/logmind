@@ -140,7 +140,7 @@ class LogRepository:
         """Get logs that haven't been processed."""
         stmt = (
             select(LogEntry)
-            .where(LogEntry.processed )
+             .where(LogEntry.processed == False)
             .order_by(LogEntry.timestamp.asc())
             .limit(limit)
         )

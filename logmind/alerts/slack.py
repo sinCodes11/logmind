@@ -59,7 +59,7 @@ class SlackAlerter:
         self._webhook_url = webhook_url
         if not self._webhook_url and settings.slack_webhook_url:
             self._webhook_url = settings.slack_webhook_url.get_secret_value()
-
+        self._channel = channel or settings.slack_channel
         self._channel = channel or settings.slack_channel
 
     def send_detection_alert(
