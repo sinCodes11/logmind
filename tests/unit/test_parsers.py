@@ -1,6 +1,5 @@
 """Unit tests for log parsers."""
 
-import pytest
 from datetime import datetime
 
 from logmind.ingestion import SyslogParser, JSONLogParser, CEFParser, LogSeverity

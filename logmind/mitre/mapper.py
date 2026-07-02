@@ -1,6 +1,7 @@
 """MITRE ATT&CK technique mapper."""
 
-from dataclasses import dataclass, field
+
+from dataclasses import dataclass
 
 from logmind.detection.detector import DetectionResult
 from logmind.mitre.attack_data import ATTACKData

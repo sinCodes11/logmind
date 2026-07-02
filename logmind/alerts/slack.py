@@ -207,7 +207,7 @@ class SlackAlerter:
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": f"*Affected Systems:*\n• " + "\n• ".join(affected_systems),
+                    "text": "*Affected Systems:*\n• " + "\n• ".join(affected_systems),
                 },
             })
 
@@ -216,7 +216,7 @@ class SlackAlerter:
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": f"*Recommendations:*\n• " + "\n• ".join(recommendations),
+                    "text": "*Recommendations:*\n• " + "\n• ".join(recommendations),
                 },
             })
 

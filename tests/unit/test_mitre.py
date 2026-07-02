@@ -1,6 +1,5 @@
 """Unit tests for MITRE ATT&CK integration."""
 
-import pytest
 
 from logmind.mitre.attack_data import ATTACKData
 from logmind.mitre.mapper import ATTACKMapper

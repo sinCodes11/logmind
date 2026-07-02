@@ -1,6 +1,5 @@
 """Unit tests for detection engines."""
 
-import pytest
 from datetime import datetime
 
 from logmind.ingestion.base import NormalizedLog, LogSeverity

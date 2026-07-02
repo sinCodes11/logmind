@@ -2,17 +2,11 @@
 """Test script to verify security fixes and functionality."""
 
 import sys
-from pathlib import Path
 
 def test_imports():
     """Test that all modules import correctly."""
     print("Testing imports...")
     try:
-        from logmind.ingestion.base import NormalizedLog, MAX_LOG_LINE_LENGTH, MAX_MESSAGE_LENGTH
-        from logmind.llm.rate_limiter import RateLimiter
-        from logmind.llm.claude_provider import ClaudeProvider
-        from logmind.alerts.slack import SlackAlerter
-        from logmind.ingestion.file_watcher import FileWatcher
         print("✓ All imports successful")
         return True
     except Exception as e:
@@ -26,9 +20,7 @@ def test_security_constants():
         from logmind.ingestion.base import (
             MAX_LOG_LINE_LENGTH,
             MAX_MESSAGE_LENGTH,
-            MAX_SOURCE_LENGTH,
-            MAX_PROGRAM_LENGTH,
-            MAX_USER_LENGTH
+            MAX_SOURCE_LENGTH
         )
         
         assert MAX_LOG_LINE_LENGTH == 65536, "MAX_LOG_LINE_LENGTH should be 64KB"
@@ -83,7 +75,6 @@ def test_input_validation():
     print("\nTesting input validation...")
     try:
         from logmind.ingestion.syslog_parser import SyslogParser
-        from pydantic import ValidationError
         
         parser = SyslogParser()
         

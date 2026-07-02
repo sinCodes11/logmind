@@ -140,7 +140,7 @@ class LogRepository:
         """Get logs that haven't been processed."""
         stmt = (
             select(LogEntry)
-            .where(LogEntry.processed == False)
+            .where(LogEntry.processed )
             .order_by(LogEntry.timestamp.asc())
             .limit(limit)
         )
@@ -246,7 +246,7 @@ class DetectionRepository:
         """Get detections not assigned to any incident."""
         stmt = (
             select(Detection)
-            .where(Detection.incident_id == None)
+            .where(Detection.incident_id is None)
             .order_by(Detection.detected_at.desc())
             .limit(limit)
         )

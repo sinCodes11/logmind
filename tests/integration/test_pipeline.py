@@ -144,7 +144,7 @@ class TestMultiFormatPipeline:
             "Jan 25 10:20:15 webserver sshd[12500]: Failed password for root from 192.168.1.100 port 45123",
         ]
         json_lines = [
-            '{"timestamp":"2026-01-25T10:20:16Z","remote_addr":"192.168.1.100","request":"GET /api?id=1\\' OR \\'1\\'=\\'1","status":200}',
+                        '{"timestamp":"2026-01-25T10:20:16Z","remote_addr":"192.168.1.100","request":"GET /api?id=1\' OR \'1\'=\'1","status":200}',
         ]
 
         syslog_logs = syslog_parser.parse_batch(syslog_lines)
