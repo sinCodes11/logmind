@@ -81,6 +81,7 @@ class SyslogParser(BaseParser):
         r"(?:user[=:\s]+|for\s+(?:invalid\s+user\s+)?|Failed\s+password\s+for\s+(?:invalid\s+user\s+)?)(\w+)"
     )
     AUTH_PORT_PATTERN: ClassVar[re.Pattern] = re.compile(r"port\s+(\d+)")
+    GENERIC_IP_PATTERN: ClassVar[re.Pattern] = re.compile(r"SRC=(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})")
 
     @property
     def source_type(self) -> str:
@@ -126,6 +127,10 @@ class SyslogParser(BaseParser):
         ip_match = self.AUTH_IP_PATTERN.search(message)
         if ip_match:
             src_ip = ip_match.group(1)
+        else:
+            ip_match = self.GENERIC_IP_PATTERN.search(message)
+            if ip_match:
+                src_ip = ip_match.group(1)
 
         user_match = self.AUTH_USER_PATTERN.search(message)
         if user_match:
