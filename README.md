@@ -1,8 +1,14 @@
-# LogMind
-
 <div align="center">
-  <img src="assets/banner.svg" width="100%" />
+  <img src="assets/banner.svg" width="100%"/>
 </div>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/python-3.11%2B-blue?style=flat-square" alt="python">
+  <img src="https://img.shields.io/badge/LLM-Claude_API-a855f7?style=flat-square" alt="LLM">
+  <img src="https://img.shields.io/badge/Sigma-detection-ff0033?style=flat-square" alt="Sigma">
+  <img src="https://img.shields.io/badge/MITRE-ATT%26CK-00ff88?style=flat-square" alt="MITRE">
+</p>
+
 
 <p align="center">
   <img src="https://img.shields.io/badge/python-3.11%2B-blue?style=flat-square" alt="Python">
